@@ -1,0 +1,78 @@
+[project]
+name = "app-store-connect-wrapper"
+version = "0.1.0"
+description = "A comprehensive Python wrapper for the App Store Connect API"
+readme = "README.md"
+authors = [
+    {name = "ebowwa", email = "your-email@example.com"}
+]
+license = {text = "MIT"}
+requires-python = ">=3.8"
+dependencies = [
+    "requests>=2.31.0",
+    "PyJWT[crypto]>=2.8.0",
+    "pydantic>=2.0.0",
+    "python-dateutil>=2.8.2",
+    "click>=8.1.0",
+    "rich>=13.0.0",
+    "pyyaml>=6.0",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Build Tools",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+]
+
+[project.scripts]
+asc = "app_store_connect.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ebowwa/app-store-connect-wrapper"
+Repository = "https://github.com/ebowwa/app-store-connect-wrapper"
+Issues = "https://github.com/ebowwa/app-store-connect-wrapper/issues"
+Documentation = "https://github.com/ebowwa/app-store-connect-wrapper/wiki"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+
+[tool.black]
+line-length = 100
+target-version = ['py38']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+addopts = "--cov=app_store_connect --cov-report=term-missing"
