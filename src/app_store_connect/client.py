@@ -9,6 +9,7 @@ from .auth import Auth
 from .api.apps import AppsAPI
 from .api.localizations import LocalizationsAPI, AppStoreVersionLocalizationsAPI
 from .api.versions import VersionsAPI
+from .api.media import MediaAPI
 
 
 class Client:
@@ -51,6 +52,7 @@ class Client:
         self.localizations = LocalizationsAPI(self._auth)
         self.version_localizations = AppStoreVersionLocalizationsAPI(self._auth)
         self.versions = VersionsAPI(self._auth)
+        self.media = MediaAPI(self._auth)
     
     @classmethod
     def from_env(cls, env_prefix: str = 'ASC') -> 'Client':
