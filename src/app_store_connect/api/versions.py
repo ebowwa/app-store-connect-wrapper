@@ -21,7 +21,7 @@ class VersionsAPI(BaseAPI):
         Returns:
             List of version data
         """
-        response = self.get(f'apps/{app_id}/appStoreVersions')
+        response = super().get(f'apps/{app_id}/appStoreVersions')
         return response.get('data', [])
     
     def get(self, version_id: str) -> Dict[str, Any]:
@@ -117,7 +117,7 @@ class VersionsAPI(BaseAPI):
             }
         }
         
-        response = self.post('appStoreVersions', data=data)
+        response = super().post('appStoreVersions', data=data)
         return response['data']
     
     def update(
@@ -171,7 +171,7 @@ class VersionsAPI(BaseAPI):
             }
         }
         
-        response = self.patch(f'appStoreVersions/{version_id}', data=data)
+        response = super().patch(f'appStoreVersions/{version_id}', data=data)
         return response['data']
     
     def submit_for_review(self, version_id: str) -> Dict[str, Any]:
@@ -198,7 +198,7 @@ class VersionsAPI(BaseAPI):
             }
         }
         
-        response = self.post('appStoreVersionSubmissions', data=data)
+        response = super().post('appStoreVersionSubmissions', data=data)
         return response['data']
     
     def get_build(self, version_id: str) -> Optional[Dict[str, Any]]:
@@ -211,7 +211,7 @@ class VersionsAPI(BaseAPI):
         Returns:
             Build data or None
         """
-        response = self.get(f'appStoreVersions/{version_id}/build')
+        response = super().get(f'appStoreVersions/{version_id}/build')
         data = response.get('data')
         return data if data else None
     
@@ -233,7 +233,7 @@ class VersionsAPI(BaseAPI):
             }
         }
         
-        response = self.patch(
+        response = super().patch(
             f'appStoreVersions/{version_id}/relationships/build',
             data=data
         )
@@ -249,7 +249,7 @@ class VersionsAPI(BaseAPI):
         Returns:
             Phased release data or None
         """
-        response = self.get(f'appStoreVersions/{version_id}/appStoreVersionPhasedRelease')
+        response = super().get(f'appStoreVersions/{version_id}/appStoreVersionPhasedRelease')
         data = response.get('data')
         return data if data else None
     
@@ -285,7 +285,7 @@ class VersionsAPI(BaseAPI):
             }
         }
         
-        response = self.post('appStoreVersionPhasedReleases', data=data)
+        response = super().post('appStoreVersionPhasedReleases', data=data)
         return response['data']
     
     def update_phased_release(
@@ -313,5 +313,5 @@ class VersionsAPI(BaseAPI):
             }
         }
         
-        response = self.patch(f'appStoreVersionPhasedReleases/{phased_release_id}', data=data)
+        response = super().patch(f'appStoreVersionPhasedReleases/{phased_release_id}', data=data)
         return response['data']

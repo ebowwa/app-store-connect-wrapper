@@ -68,7 +68,7 @@ class AppsAPI(BaseAPI):
                 'attributes': attributes
             }
         }
-        response = self.patch(f'apps/{app_id}', data=data)
+        response = super().patch(f'apps/{app_id}', data=data)
         return response['data']
     
     def get_app_infos(self, app_id: str) -> List[Dict[str, Any]]:

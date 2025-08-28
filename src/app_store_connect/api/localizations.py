@@ -21,7 +21,7 @@ class LocalizationsAPI(BaseAPI):
         Returns:
             List of localization data
         """
-        response = self.get(f'appInfos/{app_info_id}/appInfoLocalizations')
+        response = super().get(f'appInfos/{app_info_id}/appInfoLocalizations')
         return response.get('data', [])
     
     def get(self, localization_id: str) -> Dict[str, Any]:
@@ -85,7 +85,7 @@ class LocalizationsAPI(BaseAPI):
             }
         }
         
-        response = self.post('appInfoLocalizations', data=data)
+        response = super().post('appInfoLocalizations', data=data)
         return response['data']
     
     def update(
@@ -127,7 +127,7 @@ class LocalizationsAPI(BaseAPI):
             }
         }
         
-        response = self.patch(f'appInfoLocalizations/{localization_id}', data=data)
+        response = super().patch(f'appInfoLocalizations/{localization_id}', data=data)
         return response['data']
     
     def delete(self, localization_id: str) -> None:
@@ -210,7 +210,7 @@ class AppStoreVersionLocalizationsAPI(BaseAPI):
         Returns:
             List of localization data
         """
-        response = self.get(f'appStoreVersions/{version_id}/appStoreVersionLocalizations')
+        response = super().get(f'appStoreVersions/{version_id}/appStoreVersionLocalizations')
         return response.get('data', [])
     
     def get(self, localization_id: str) -> Dict[str, Any]:
@@ -282,7 +282,7 @@ class AppStoreVersionLocalizationsAPI(BaseAPI):
             }
         }
         
-        response = self.post('appStoreVersionLocalizations', data=data)
+        response = super().post('appStoreVersionLocalizations', data=data)
         return response['data']
     
     def update(
@@ -332,7 +332,7 @@ class AppStoreVersionLocalizationsAPI(BaseAPI):
             }
         }
         
-        response = self.patch(f'appStoreVersionLocalizations/{localization_id}', data=data)
+        response = super().patch(f'appStoreVersionLocalizations/{localization_id}', data=data)
         return response['data']
     
     def delete(self, localization_id: str) -> None:
