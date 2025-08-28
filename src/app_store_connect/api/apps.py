@@ -81,7 +81,7 @@ class AppsAPI(BaseAPI):
         Returns:
             List of app info data
         """
-        response = self.get(f'apps/{app_id}/appInfos')
+        response = super().get(f'apps/{app_id}/appInfos')
         return response.get('data', [])
     
     def get_app_store_versions(self, app_id: str) -> List[Dict[str, Any]]:
@@ -94,7 +94,7 @@ class AppsAPI(BaseAPI):
         Returns:
             List of app store version data
         """
-        response = self.get(f'apps/{app_id}/appStoreVersions')
+        response = super().get(f'apps/{app_id}/appStoreVersions')
         return response.get('data', [])
     
     def get_builds(self, app_id: str) -> List[Dict[str, Any]]:
@@ -107,5 +107,5 @@ class AppsAPI(BaseAPI):
         Returns:
             List of build data
         """
-        response = self.get(f'apps/{app_id}/builds')
+        response = super().get(f'apps/{app_id}/builds')
         return response.get('data', [])
