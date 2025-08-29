@@ -6,6 +6,7 @@ from .apps import AppsAPI
 from .localizations import LocalizationsAPI, AppStoreVersionLocalizationsAPI
 from .versions import VersionsAPI
 from .media import MediaAPI
+from .categories import CategoriesAPI
 
 __all__ = [
     "AppsAPI",
@@ -13,4 +14,5 @@ __all__ = [
     "AppStoreVersionLocalizationsAPI",
     "VersionsAPI",
     "MediaAPI",
+    "CategoriesAPI",
 ]

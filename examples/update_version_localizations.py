@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 """
-Update App Store Connect localizations with keywords, descriptions, and metadata
+Example script to update App Store Connect localizations with keywords, descriptions, and metadata
+
+This script demonstrates how to update all localizations for a specific app version.
+It includes proper character limits and localized content for each market.
+
+Usage:
+    1. Set environment variables:
+       - ASC_KEY_ID
+       - ASC_ISSUER_ID  
+       - ASC_PRIVATE_KEY_PATH
+       - ASC_APP_ID
+    2. Update VERSION_ID below or pass as environment variable
+    3. Run: python update_localizations.py
 """
 
 import sys

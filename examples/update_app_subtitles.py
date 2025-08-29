@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 """
-Update App Store Connect app subtitles (shown under app name on App Store)
+Example script to update App Store Connect app subtitles (shown under app name on App Store)
+
+This script demonstrates how to update app subtitles for all localizations.
+Subtitles appear directly under the app name in the App Store.
+
+Usage:
+    1. Set environment variables:
+       - ASC_KEY_ID
+       - ASC_ISSUER_ID  
+       - ASC_PRIVATE_KEY_PATH
+       - ASC_APP_ID
+    2. Run: python update_app_subtitles.py
 """
 
 import sys
