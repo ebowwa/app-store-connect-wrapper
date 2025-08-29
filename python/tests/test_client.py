@@ -8,7 +8,7 @@ from pathlib import Path
 import os
 
 import sys
-sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app_store_connect.client import Client
 from app_store_connect.auth import Auth
