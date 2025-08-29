@@ -17,7 +17,7 @@ impl AppsAPI {
         self.base.get_all_pages("apps", None, limit).await
     }
 
-    pub async fn get(&self, app_id: &str) -> Result<Value, AppStoreConnectError> {
+    pub async fn get_app(&self, app_id: &str) -> Result<Value, AppStoreConnectError> {
         let response = self.base.get(&format!("apps/{}", app_id), None).await?;
         response
             .get("data")
