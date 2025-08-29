@@ -1,294 +1,128 @@
-# App Store Connect API Wrapper
+# App Store Connect Wrapper - Multi-Language Implementation
 
-A comprehensive Python wrapper for automating App Store Connect operations, including app metadata management, localization updates, and version control.
+A comprehensive library for automating App Store Connect operations, available in multiple programming languages. This repository provides equivalent functionality across different languages, allowing developers to choose their preferred implementation while maintaining consistent API design.
 
-## Features
+## 🚀 Available Implementations
 
-- 🔐 **JWT Authentication**: Secure authentication using App Store Connect API keys
-- 🌍 **Localization Management**: Bulk update app names, subtitles, and descriptions across all locales
-- 📱 **App Management**: Retrieve and update app information
-- 🚀 **Version Control**: Create and manage app store versions
-- 🎯 **Smart State Detection**: Automatically finds editable app states for updates
-- ⚡ **Bulk Operations**: Efficiently update multiple localizations in a single operation
-- 🔄 **Pagination Support**: Handle large datasets with automatic pagination
+### 🐍 Python Implementation
+**Location**: [`python/`](./python/)
 
-## Installation
+The original Python implementation providing full App Store Connect API functionality.
 
+**Features**:
+- JWT authentication with .p8 private keys
+- Complete App Store Connect API coverage
+- Async/await support
+- Comprehensive error handling
+- Localization management
+- Version control and submission
+- Media and metadata management
+
+**Quick Start**:
 ```bash
-# Install with pip
+cd python/
 pip install -e .
-
-# Or with uv
-uv pip install -e .
 ```
 
-## Quick Start
+See [Python README](./python/README.md) for detailed documentation.
 
-### 1. Set up your credentials
+### 🦀 Rust Implementation  
+**Location**: [`rust/`](./rust/)
 
-Create a `.env` file:
+High-performance Rust implementation with equivalent functionality to the Python version.
 
-```env
-ASC_KEY_ID=YOUR_KEY_ID
-ASC_ISSUER_ID=YOUR_ISSUER_ID
-ASC_PRIVATE_KEY_PATH=./AuthKey_YOUR_KEY_ID.p8
-ASC_APP_ID=YOUR_APP_ID
-```
+**Features**:
+- Memory-safe and performant
+- Full async/await support with Tokio
+- Type-safe API interactions
+- Comprehensive error handling
+- Zero-cost abstractions
+- Same API design as Python version
 
-### 2. Basic usage
-
-```python
-from app_store_connect import Client
-
-# Create client from environment variables
-client = Client.from_env()
-
-# Get all your apps
-apps = client.apps.get_all()
-for app in apps:
-    print(f"App: {app['attributes']['name']} ({app['attributes']['bundleId']})")
-
-# Get app by bundle ID
-app = client.get_app_by_bundle_id('com.example.app')
-
-# Update app localizations
-localizations = {
-    'en-US': {'name': 'My App', 'subtitle': 'Amazing App'},
-    'fr-FR': {'name': 'Mon App', 'subtitle': 'App Incroyable'},
-    'es-ES': {'name': 'Mi App', 'subtitle': 'App Increíble'}
-}
-results = client.update_app_localizations(app['id'], localizations)
-```
-
-## API Modules
-
-### Apps API
-
-```python
-# Get all apps
-apps = client.apps.get_all()
-
-# Get specific app
-app = client.apps.get(app_id)
-
-# Get app by bundle ID
-app = client.apps.get_by_bundle_id('com.example.app')
-
-# Update app attributes
-updated = client.apps.update(app_id, primaryLocale='en-US')
-
-# Get app infos
-app_infos = client.apps.get_app_infos(app_id)
-
-# Get app store versions
-versions = client.apps.get_app_store_versions(app_id)
-```
-
-### Localizations API
-
-```python
-# Get all localizations for an app info
-localizations = client.localizations.get_all(app_info_id)
-
-# Get specific localization
-loc = client.localizations.get(localization_id)
-
-# Create new localization
-new_loc = client.localizations.create(
-    app_info_id,
-    locale='fr-FR',
-    name='Mon App',
-    subtitle='Une super app'
-)
-
-# Update localization
-updated = client.localizations.update(
-    localization_id,
-    name='Updated Name',
-    subtitle='Updated Subtitle'
-)
-
-# Bulk update localizations
-results = client.localizations.bulk_update(app_info_id, {
-    'en-US': {'name': 'My App', 'subtitle': 'Great App'},
-    'fr-FR': {'name': 'Mon App', 'subtitle': 'Super App'}
-})
-```
-
-### Versions API
-
-```python
-# Get all versions
-versions = client.versions.get_all(app_id)
-
-# Get current version
-current = client.versions.get_current(app_id)
-
-# Create new version
-new_version = client.versions.create(
-    app_id,
-    version_string='1.0.1',
-    release_type='MANUAL'
-)
-
-# Update version
-updated = client.versions.update(
-    version_id,
-    copyright='© 2024 My Company',
-    release_type='AFTER_APPROVAL'
-)
-
-# Submit for review
-submission = client.versions.submit_for_review(version_id)
-```
-
-## Examples
-
-### Sync Localizations from Local Files
-
+**Quick Start**:
 ```bash
-# Run the sync script
-python examples/sync_localizations.py --app-id YOUR_APP_ID
-
-# Dry run to see what would be updated
-python examples/sync_localizations.py --app-id YOUR_APP_ID --dry-run
+cd rust/
+cargo build
+cargo test
 ```
 
-### Update App Metadata Programmatically
+See [Rust README](./rust/README.md) for detailed documentation.
 
-```python
-from app_store_connect import Client
-import json
+## 🎯 Core Functionality
 
-client = Client.from_env()
+All implementations provide:
 
-# Load localizations from JSON
-with open('localizations.json') as f:
-    localizations = json.load(f)
+- **Authentication**: JWT token generation using App Store Connect API keys
+- **App Management**: Create, update, and manage app metadata
+- **Localization**: Bulk update app names, descriptions, and metadata across locales
+- **Version Control**: Create versions, manage builds, submit for review
+- **Media Management**: Upload and manage app screenshots, icons, and other assets
+- **Category Management**: Handle app categories and subcategories
 
-# Update all localizations
-app_id = 'YOUR_APP_ID'
-results = client.update_app_localizations(app_id, localizations)
-
-# Check results
-for locale, result in results.items():
-    if result['success']:
-        print(f"✓ {locale}: {result['action']}")
-    else:
-        print(f"✗ {locale}: {result['error']}")
-```
-
-## Important Notes
-
-### App State Requirements
-
-The App Store Connect API requires apps to be in specific states to allow updates:
-
-- ✅ **Editable states**: `DEVELOPER_REJECTED`, `PREPARE_FOR_SUBMISSION`, `METADATA_REJECTED`
-- ❌ **Read-only states**: `READY_FOR_SALE`, `IN_REVIEW`, `WAITING_FOR_REVIEW`
-
-The wrapper automatically detects and uses editable app info records when available.
-
-### Rate Limiting
-
-The App Store Connect API has rate limits. The wrapper includes:
-- Automatic retry logic for rate limit errors
-- Proper error handling with descriptive messages
-- Token refresh before expiration
-
-### Localization Codes
-
-Use standard locale codes for localizations:
-- `en-US` - English (United States)
-- `de-DE` - German
-- `fr-FR` - French
-- `es-ES` - Spanish (Spain)
-- `es-MX` - Spanish (Mexico)
-- `ja` - Japanese
-- `zh-Hans` - Chinese (Simplified)
-- `zh-Hant` - Chinese (Traditional)
-- etc.
-
-## Error Handling
-
-```python
-from app_store_connect import Client, AppStoreConnectError, ValidationError
-
-client = Client.from_env()
-
-try:
-    # Attempt to update localization
-    result = client.localizations.update(loc_id, name='New Name')
-except ValidationError as e:
-    print(f"Validation failed: {e}")
-except AppStoreConnectError as e:
-    print(f"API error: {e}")
-```
-
-## Development
-
-### Project Structure
+## 🏗️ Repository Structure
 
 ```
 app-store-connect-wrapper/
-├── src/
-│   └── app_store_connect/
-│       ├── __init__.py
-│       ├── client.py           # Main client class
-│       ├── auth.py             # JWT authentication
-│       ├── base.py             # Base API class
-│       ├── exceptions.py       # Custom exceptions
-│       └── api/
-│           ├── __init__.py
-│           ├── apps.py         # Apps API
-│           ├── localizations.py # Localizations API
-│           └── versions.py     # Versions API
-├── examples/
-│   └── sync_localizations.py   # Example sync script
-├── tests/                       # Unit tests
-├── pyproject.toml              # Package configuration
-└── README.md                   # This file
+├── python/                 # Python implementation
+│   ├── app_store_connect/  # Python source code
+│   ├── examples/           # Python examples
+│   ├── README.md          # Python-specific docs
+│   └── pyproject.toml     # Python dependencies
+├── rust/                  # Rust implementation  
+│   ├── src/               # Rust source code
+│   ├── examples/          # Rust examples
+│   ├── README.md          # Rust-specific docs
+│   └── Cargo.toml         # Rust dependencies
+└── README.md              # This file
 ```
 
-### Running Tests
+## 🔧 Authentication Setup
 
-```bash
-# Run all tests
-pytest
+All implementations use the same authentication approach:
 
-# Run with coverage
-pytest --cov=app_store_connect
+1. **Generate API Key**: Create a new API key in App Store Connect
+2. **Download Private Key**: Save the `.p8` file securely
+3. **Set Environment Variables**:
+   ```bash
+   export ASC_KEY_ID="your-key-id"
+   export ASC_ISSUER_ID="your-issuer-id" 
+   export ASC_PRIVATE_KEY_PATH="/path/to/your/key.p8"
+   ```
 
-# Run specific test
-pytest tests/test_auth.py
-```
+## 📚 Examples
 
-### Contributing
+Each implementation includes equivalent examples:
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Submit a pull request
+- **Sync Localizations**: Bulk update app localizations across multiple locales
+- **Version Management**: Create and manage app store versions
+- **Media Upload**: Upload and organize app screenshots and assets
 
-## License
+## 🚧 Future Implementations
 
-MIT License - See LICENSE file for details
+This repository is designed to support additional language implementations:
 
-## Support
+- **JavaScript/TypeScript**: Planned for web and Node.js environments
+- **Python v2**: Next-generation Python implementation with enhanced features
+- **Additional Languages**: Open to community contributions
 
-For issues and questions:
-- Open an issue on GitHub
-- Check existing issues for solutions
-- Provide detailed error messages and context
+## 🤝 Contributing
 
-## Roadmap
+Contributions are welcome for:
+- Bug fixes and improvements to existing implementations
+- New language implementations
+- Documentation improvements
+- Additional examples and use cases
 
-- [ ] Add builds management
-- [ ] Implement screenshots and app previews upload
-- [ ] Add review responses management
-- [ ] Implement TestFlight management
-- [ ] Add analytics data retrieval
-- [ ] Create CLI tool
-- [ ] Add async/await support
-- [ ] Implement webhook support
+## 📄 License
+
+This project is licensed under the MIT License - see the individual implementation directories for specific license files.
+
+## 🔗 Links
+
+- [App Store Connect API Documentation](https://developer.apple.com/documentation/appstoreconnectapi)
+- [Python Implementation](./python/)
+- [Rust Implementation](./rust/)
+
+---
+
+Choose your preferred language implementation and start automating your App Store Connect workflows today! 🚀

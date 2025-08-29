@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import Dict, Any
 from dotenv import load_dotenv
 
-sys.path.insert(0, str(Path(__file__).parent / 'src'))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app_store_connect import Client
 from app_store_connect.api.localizations import AppStoreVersionLocalizationsAPI

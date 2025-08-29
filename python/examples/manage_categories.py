@@ -8,8 +8,8 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
+# Add parent directory to path for development
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app_store_connect import Client
 

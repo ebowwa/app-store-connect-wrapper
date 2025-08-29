@@ -9,7 +9,7 @@ from unittest.mock import patch, MagicMock
 from dotenv import load_dotenv
 
 import sys
-sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app_store_connect import Client
 from app_store_connect.exceptions import AppStoreConnectError
