@@ -1,6 +1,9 @@
 """
 Media and Assets API module for App Store Connect
-Handles app icons, screenshots, and app previews
+Handles screenshots and app previews
+
+NOTE: App icon functionality has been removed as Apple does not support
+localized app icons. All regions use the same global app icon.
 """
 
 from typing import Dict, Any, List, Optional, BinaryIO
@@ -14,77 +17,19 @@ class MediaAPI(BaseAPI):
     Manage app media assets in App Store Connect
     """
     
-    # App Icons
-    
-    def get_app_icons(self, app_info_id: str) -> List[Dict[str, Any]]:
-        """
-        Get all app icons for an app info
-        
-        Args:
-            app_info_id: The app info ID
-            
-        Returns:
-            List of app icon data
-        """
-        response = super().get(f'appInfos/{app_info_id}/appInfoLocalizations')
-        localizations = response.get('data', [])
-        
-        # Fetch icons for each localization
-        icons = []
-        for loc in localizations:
-            loc_id = loc['id']
-            locale = loc['attributes']['locale']
-            icon_response = super().get(f'appInfoLocalizations/{loc_id}/relationships/appIcon')
-            if icon_response.get('data'):
-                icon_data = icon_response['data']
-                icon_data['locale'] = locale
-                icons.append(icon_data)
-        
-        return icons
-    
-    def upload_app_icon(
-        self,
-        app_info_localization_id: str,
-        file_path: str,
-        file_size: int
-    ) -> Dict[str, Any]:
-        """
-        Upload an app icon for a specific localization
-        
-        Note: This is a multi-step process:
-        1. Reserve the app icon upload
-        2. Upload the asset to the provided URL
-        3. Commit the upload
-        
-        Args:
-            app_info_localization_id: The app info localization ID
-            file_path: Path to the icon file (1024x1024 PNG)
-            file_size: Size of the file in bytes
-            
-        Returns:
-            App icon reservation data
-        """
-        # Step 1: Reserve the icon upload
-        data = {
-            'data': {
-                'type': 'appInfoLocalizationAppIcons',
-                'attributes': {
-                    'fileSize': file_size,
-                    'fileName': Path(file_path).name
-                },
-                'relationships': {
-                    'appInfoLocalization': {
-                        'data': {
-                            'type': 'appInfoLocalizations',
-                            'id': app_info_localization_id
-                        }
-                    }
-                }
-            }
-        }
-        
-        response = super().post('appInfoLocalizationAppIcons', data=data)
-        return response['data']
+    # App Icons - REMOVED
+    # NOTE: Apple App Store Connect does not support localized app icons.
+    # All regions/localizations use the same global app icon.
+    # The app icon is uploaded once through Xcode or App Store Connect web interface.
+    # 
+    # If Apple adds this feature in the future, implement these methods:
+    # - get_app_icons(app_info_id) - Get app icons
+    # - upload_app_icon(app_info_localization_id, file_path, file_size) - Upload icon
+    #
+    # The API endpoints would be:
+    # - GET /appInfos/{id}/appInfoLocalizations
+    # - POST /appInfoLocalizationAppIcons
+    # - PATCH /appInfoLocalizationAppIcons/{id}
     
     # Screenshots
     
@@ -370,8 +315,8 @@ class MediaAPI(BaseAPI):
         Mark an asset upload as complete
         
         Args:
-            asset_id: The asset ID (screenshot, preview, or icon ID)
-            asset_type: Type of asset ('appScreenshots', 'appPreviews', 'appInfoLocalizationAppIcons')
+            asset_id: The asset ID (screenshot or preview ID)
+            asset_type: Type of asset ('appScreenshots' or 'appPreviews')
             uploaded: Whether the upload completed successfully
             source_file_checksum: MD5 checksum of the uploaded file
             
