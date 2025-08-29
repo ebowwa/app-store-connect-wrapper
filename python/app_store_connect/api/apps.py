@@ -23,7 +23,7 @@ class AppsAPI(BaseAPI):
         """
         return self.get_all_pages('apps', limit=limit)
     
-    def get(self, app_id: str) -> Dict[str, Any]:
+    def get_app(self, app_id: str) -> Dict[str, Any]:
         """
         Get a specific app
         
@@ -33,7 +33,7 @@ class AppsAPI(BaseAPI):
         Returns:
             App data
         """
-        response = super().get(f'apps/{app_id}')
+        response = self.get(f'apps/{app_id}')
         return response['data']
     
     def get_by_bundle_id(self, bundle_id: str) -> Optional[Dict[str, Any]]:
@@ -46,7 +46,7 @@ class AppsAPI(BaseAPI):
         Returns:
             App data or None if not found
         """
-        response = super().get('apps', params={'filter[bundleId]': bundle_id})
+        response = self.get('apps', params={'filter[bundleId]': bundle_id})
         data = response.get('data', [])
         return data[0] if data else None
     
